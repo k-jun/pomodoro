@@ -9,13 +9,33 @@ class PomodoroTimer extends StatelessWidget {
     return Container(
       child: CustomPaint(
         size: const Size(double.infinity, double.infinity),
-        painter: CurvePainter(colors: [Colors.black]),
+        painter: CurvePainter(color: Colors.white, angle: 360),
+        foregroundPainter: CurvePainter(
+          color: Colors.red.shade700,
+          angle: 128,
+          pointer: true,
+        ),
         child: Container(
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue)
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Pomodoro #2 Complete",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                "3:40",
+                style: TextStyle(
+                  fontSize: 60,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
-          child: Text("CHILD"),
         ),
       ),
     );
@@ -23,29 +43,46 @@ class PomodoroTimer extends StatelessWidget {
 }
 
 class CurvePainter extends CustomPainter {
-  final double? angle;
-  final List<Color>? colors;
+  final double angle;
+  final Color color;
+  final double width = 7;
+  final bool pointer;
+  final double pointerRaidus = 12;
 
-  CurvePainter({this.colors, this.angle = 140});
+  CurvePainter({
+    required this.color,
+    required this.angle,
+    this.pointer = false,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    List<Color> colorsList = [];
-    if (colors != null) {
-      colorsList = colors ?? [];
-    } else {
-      colorsList.addAll([Colors.white, Colors.white]);
-    }
-
-    final shdowPaint = Paint()
-      ..color = Colors.black.withOpacity(1.0)
+    final radius = math.min(size.width / 2, size.height / 2) - width / 2;
+    final paint = Paint()
+      ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 14;
-    final shdowPaintCenter = Offset(size.width / 2, size.height / 2);
-    final shdowPaintRadius =
-        math.min(size.width / 2, size.height / 2) - (14 / 2);
-    canvas.drawArc(Rect.fromCircle(center: shdowPaintCenter, radius: 100),
-        degreeToRadians(90), degreeToRadians(120), false, shdowPaint);
+      ..strokeWidth = width;
+    final center = Offset(size.width / 2, size.height / 2);
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      degreeToRadians(-90),
+      degreeToRadians(angle),
+      false,
+      paint,
+    );
+
+    if (pointer) {
+      final pointerPaint = Paint()
+        ..color = color
+        ..strokeWidth = width;
+      final pointerOffset =
+          center + Offset.fromDirection(degreeToRadians(angle - 90), radius);
+      canvas.drawCircle(
+        pointerOffset,
+        pointerRaidus,
+        pointerPaint,
+      );
+    }
   }
 
   @override
