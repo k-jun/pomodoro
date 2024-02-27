@@ -1,43 +1,54 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:google_fonts/google_fonts.dart';
 
 class PomodoroTimer extends StatelessWidget {
   const PomodoroTimer({super.key});
 
   @override
   build(BuildContext context) {
-    return Container(
-      child: CustomPaint(
-        size: const Size(double.infinity, double.infinity),
-        painter: CurvePainter(color: Colors.white, angle: 360),
-        foregroundPainter: CurvePainter(
-          color: Colors.red.shade700,
-          angle: 128,
-          pointer: true,
-        ),
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Pomodoro #2 Complete",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: CustomPaint(
+            size: const Size(double.infinity, double.infinity),
+            painter: CurvePainter(color: Colors.white, angle: 360),
+            foregroundPainter: CurvePainter(
+              color: Colors.red.shade700,
+              angle: 128,
+              pointer: true,
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Pomodoro #2 Complete",
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "3:41",
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                        fontSize: 60,
+                        color: Colors.white,
+                        letterSpacing: 5,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                "3:40",
-                style: TextStyle(
-                  fontSize: 60,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -73,8 +84,7 @@ class CurvePainter extends CustomPainter {
 
     if (pointer) {
       final pointerPaint = Paint()
-        ..color = color
-        ..strokeWidth = width;
+        ..color = color;
       final pointerOffset =
           center + Offset.fromDirection(degreeToRadians(angle - 90), radius);
       canvas.drawCircle(

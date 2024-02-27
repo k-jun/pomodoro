@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/pomodoro_status.dart';
 import 'package:pomodoro/pomodoro_timer.dart';
+import 'package:pomodoro/pomodoro_button.dart';
+import 'package:pomodoro/pomodoro_indicator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,17 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: EdgeInsets.fromLTRB(30, 25, 30, 20),
           child: Column(
             children: <Widget>[
-              Expanded(flex: 1, child: PomodoroStatus()),
-              Expanded(flex: 5, child: PomodoroTimer()),
-              Expanded(flex: 4, child: Text("TODO")),
+              Expanded(flex: 8, child: PomodoroStatus()),
+              Expanded(flex: 48, child: PomodoroTimer()),
+              Expanded(flex: 24, child: PomodoroIndicator()),
+              Expanded(flex: 18, child: PomodoroButton()),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

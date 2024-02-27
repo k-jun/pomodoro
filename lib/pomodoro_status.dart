@@ -10,7 +10,7 @@ class PomodoroStatus extends StatelessWidget {
       child: const Icon(
         Icons.settings,
         color: Colors.white,
-        size: 30,
+        size: 40,
       ),
     );
   }
