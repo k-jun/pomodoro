@@ -3,6 +3,8 @@ import 'package:pomodoro/pomodoro_status.dart';
 import 'package:pomodoro/pomodoro_timer.dart';
 import 'package:pomodoro/pomodoro_button.dart';
 import 'package:pomodoro/pomodoro_indicator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,31 +34,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.red[400],
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.fromLTRB(30, 25, 30, 20),
-          child: Column(
-            children: <Widget>[
-              Expanded(flex: 8, child: PomodoroStatus()),
-              Expanded(flex: 48, child: PomodoroTimer()),
-              Expanded(flex: 24, child: PomodoroIndicator()),
-              Expanded(flex: 18, child: PomodoroButton()),
-            ],
+    return BlocProvider(
+      create: (context) => PomodoroBloc(ticker: Ticker()),
+      child: Scaffold(
+        backgroundColor: Colors.red[400],
+        body: SafeArea(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(30, 25, 30, 20),
+            child: Column(
+              children: <Widget>[
+                Expanded(flex: 8, child: PomodoroStatus()),
+                Expanded(flex: 48, child: PomodoroTimer()),
+                Expanded(flex: 24, child: PomodoroIndicator()),
+                Expanded(flex: 18, child: PomodoroButton()),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
