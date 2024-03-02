@@ -35,7 +35,7 @@ class _PomodoroTimer extends State<PomodoroTimer>
   }
 
   void _animateTo(PomodoroState s) {
-    if (s.sec == 0 || s.stat == Status.ready) {
+    if (s.sec == 0 || s.stat == Status.ready || s.stat == Status.pause) {
       return;
     }
     _controller.reset();
