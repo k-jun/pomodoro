@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pomodoro/bloc/bloc.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-final player = AudioPlayer();
-
 class Ticker {
   Stream<int> tick({required int ticks}) {
     return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1)
         .take(ticks);
   }
 }
+
+final player = AudioPlayer();
 
 class PomodoroBloc extends Bloc<Event, PomodoroState> {
   final Ticker _ticker;
@@ -54,6 +54,13 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
       return;
     }
 
+    emit(PomodoroState(
+      sec: state.sec,
+      rnd: state.rnd,
+      set: state.sec,
+      stat: Status.going,
+      mode: state.mode,
+    ));
     _tickerSubscription?.cancel();
     _tickerSubscription = _ticker.tick(ticks: state.sec).listen((s) {
       add(EventTick(sec: s));
@@ -96,7 +103,7 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
       mode: state.mode,
     ));
     if (event.sec == 0) {
-      player.play(AssetSource("x.mp3"));
+      await player.play(AssetSource("x.mp3"));
       await Future.delayed(const Duration(seconds: 1));
       add(EventFinish());
     }
