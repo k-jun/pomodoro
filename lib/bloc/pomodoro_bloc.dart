@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pomodoro/bloc/bloc.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class Ticker {
   Stream<int> tick({required int ticks}) {
@@ -9,8 +8,6 @@ class Ticker {
         .take(ticks);
   }
 }
-
-final player = AudioPlayer();
 
 class PomodoroBloc extends Bloc<Event, PomodoroState> {
   final Ticker _ticker;
@@ -103,7 +100,6 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
       mode: state.mode,
     ));
     if (event.sec == 0) {
-      await player.play(AssetSource("x.mp3"));
       await Future.delayed(const Duration(seconds: 1));
       add(EventFinish());
     }
