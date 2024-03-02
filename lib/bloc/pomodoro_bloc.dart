@@ -14,12 +14,12 @@ final player = AudioPlayer();
 
 class PomodoroBloc extends Bloc<Event, PomodoroState> {
   final Ticker _ticker;
-  // final int _pomodoro = 25 * 60;
-  // final int _breakShort = 5 * 60;
-  // final int _breakLong = 15 * 60;
-  final int _pomodoro = 5;
-  final int _breakShort = 3;
-  final int _breakLong = 4;
+  final int _pomodoro = 25 * 60;
+  final int _breakShort = 5 * 60;
+  final int _breakLong = 15 * 60;
+  // final int _pomodoro = 5;
+  // final int _breakShort = 3;
+  // final int _breakLong = 4;
   final int _round = 4;
 
   StreamSubscription<int>? _tickerSubscription;

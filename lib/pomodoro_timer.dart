@@ -15,7 +15,6 @@ class _PomodoroTimer extends State<PomodoroTimer>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late CurvedAnimation _curvedAnimation;
 
   @override
   void initState() {
