@@ -19,16 +19,24 @@ class PomodoroTimer extends StatelessWidget {
     }
 
     return BlocBuilder<PomodoroBloc, PomodoroState>(builder: (context, state) {
+      String message(PomodoroState s) {
+        String mess = "Pomodoro #${s.rnd+1} Progress";
+        if (s.mode == Modes.rest || s.mode == Modes.last) {
+          mess = "Pomodoro #${s.rnd} Complete";
+        }
+        return mess;
+      }
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: CustomPaint(
               size: const Size(double.infinity, double.infinity),
-              painter: CurvePainter(color: Colors.white, angle: 360),
+              painter: CurvePainter(color: Colors.red.shade700, angle: 360),
               foregroundPainter: CurvePainter(
-                color: Colors.red.shade700,
-                angle: (1 - (state.sec / state.set)) * 360,
+                color: Colors.white,
+                angle:
+                    state.set == 0 ? 0 : (1 - (state.sec / state.set)) * 360,
                 pointer: true,
               ),
               child: Container(
@@ -37,7 +45,7 @@ class PomodoroTimer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Pomodoro #2 Complete",
+                      message(state),
                       style: GoogleFonts.montserrat(
                         textStyle: const TextStyle(
                           fontSize: 15,
