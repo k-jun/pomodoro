@@ -12,10 +12,11 @@ class Ticker {
 }
 
 final r = math.Random();
+const alarmId = 218;
 
 Future<void> set(dt) async {
   final as = AlarmSettings(
-    id: r.nextInt(100),
+    id: alarmId,
     dateTime: dt.add(Duration(seconds: 1)),
     assetAudioPath: 'assets/x.mp3',
     vibrate: true,
@@ -37,12 +38,13 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
   final int _pomodoro = 25 * 60;
   final int _breakShort = 5 * 60;
   final int _breakLong = 15 * 60;
-  // final int _pomodoro = 10;
+  // final int _pomodoro = 30;
   // final int _breakShort = 6;
   // final int _breakLong = 8;
   final int _round = 4;
 
   StreamSubscription<int>? _tickerSubscription;
+  StreamSubscription<AlarmSettings>? _alarmSubscription;
 
   PomodoroBloc({required Ticker ticker})
       : _ticker = ticker,
@@ -53,6 +55,7 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
     on<EventReset>(_onReset);
     on<EventTick>(_onTicked);
     on<EventFinish>(_onFinished);
+    on<EventScreenResume>(_onEventScreenResumed);
   }
 
   @override
@@ -171,5 +174,31 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
       );
     }
     emit(ns);
+  }
+
+  void _onEventScreenResumed(
+      EventScreenResume event, Emitter<PomodoroState> emit) {
+    final as = Alarm.getAlarm(alarmId);
+    if (as == null) {
+      return;
+    }
+
+    final dt = as.dateTime;
+
+    int diff = dt.difference(DateTime.now()).inSeconds;
+    if (diff > 0) {
+      _tickerSubscription?.cancel();
+      _tickerSubscription = _ticker.tick(ticks: diff-1).listen((s) {
+        add(EventTick(sec: s));
+      });
+      final PomodoroState ns = PomodoroState(
+        sec: diff,
+        rnd: state.rnd,
+        set: state.set,
+        stat: state.stat,
+        mode: state.mode,
+      );
+      emit(ns);
+    }
   }
 }

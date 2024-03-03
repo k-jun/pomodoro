@@ -18,6 +18,8 @@ class EventReset extends Event {}
 
 class EventFinish extends Event {}
 
+class EventScreenResume extends Event {}
+
 class EventTick extends Event {
   final int sec;
 
