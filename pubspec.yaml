@@ -12,6 +12,7 @@ dependencies:
   flutter_bloc: ^8.1.4
   equatable: ^2.0.5
   audioplayers: ^5.2.1
+  alarm: ^3.0.12
 dev_dependencies:
   flutter_test:
     sdk: flutter

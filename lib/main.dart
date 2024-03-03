@@ -4,9 +4,13 @@ import 'package:pomodoro/pomodoro_timer.dart';
 import 'package:pomodoro/pomodoro_button.dart';
 import 'package:pomodoro/pomodoro_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:alarm/alarm.dart';
 import 'bloc/bloc.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Alarm.init(showDebugLogs: true);
+
   runApp(const MyApp());
 }
 
