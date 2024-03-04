@@ -186,19 +186,10 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
     final dt = as.dateTime;
 
     int diff = dt.difference(DateTime.now()).inSeconds;
-    if (diff > 0) {
-      _tickerSubscription?.cancel();
-      _tickerSubscription = _ticker.tick(ticks: diff-1).listen((s) {
-        add(EventTick(sec: s));
-      });
-      final PomodoroState ns = PomodoroState(
-        sec: diff,
-        rnd: state.rnd,
-        set: state.set,
-        stat: state.stat,
-        mode: state.mode,
-      );
-      emit(ns);
-    }
+    diff = diff > 2 ? diff - 1 : 1;
+    _tickerSubscription?.cancel();
+    _tickerSubscription = _ticker.tick(ticks: diff).listen((s) {
+      add(EventTick(sec: s));
+    });
   }
 }
