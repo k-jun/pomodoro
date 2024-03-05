@@ -21,7 +21,6 @@ Future<void> set(dt) async {
     assetAudioPath: 'assets/x.mp3',
     vibrate: true,
     loopAudio: false,
-    volume: 1.0,
     notificationTitle: 'This is the title',
     notificationBody: 'This is the body',
     enableNotificationOnKill: true,
@@ -187,9 +186,11 @@ class PomodoroBloc extends Bloc<Event, PomodoroState> {
 
     int diff = dt.difference(DateTime.now()).inSeconds;
     diff = diff > 2 ? diff - 1 : 1;
-    _tickerSubscription?.cancel();
-    _tickerSubscription = _ticker.tick(ticks: diff).listen((s) {
-      add(EventTick(sec: s));
-    });
+    if (state.stat == Status.going) {
+      _tickerSubscription?.cancel();
+      _tickerSubscription = _ticker.tick(ticks: diff).listen((s) {
+        add(EventTick(sec: s));
+      });
+    }
   }
 }
