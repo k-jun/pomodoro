@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return BlocProvider(
       create: (context) => PomodoroBloc(ticker: Ticker()),
       child: Scaffold(
-        backgroundColor: Colors.red[400],
+        backgroundColor: Colors.red.shade400,
         body: SafeArea(
           child: Container(
             margin: EdgeInsets.fromLTRB(30, 25, 30, 20),
